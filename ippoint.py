@@ -6,7 +6,6 @@ import ipaddress
 import json
 import queue
 import threading
-import urllib.error
 import urllib.parse
 import urllib.request
 import tkinter as tk
@@ -43,7 +42,7 @@ def lookup_ip(address: str) -> dict:
 
 def country_flag(country_code: str) -> str:
     code = country_code.upper()
-    if len(code) != 2 or not code.isalpha():
+    if len(code) != 2 or not code.isascii() or not code.isalpha():
         return ""
     return "".join(chr(0x1F1E6 + ord(char) - ord("A")) for char in code)
 
