@@ -14,7 +14,10 @@ A lightweight Python/Tkinter utility for checking the country associated with an
 ## Requirements
 
 - Python 3.10 or newer
-- Tkinter (included with most standard Windows Python installations)
+- Tkinter
+  - Windows: included with most standard Python installations.
+  - Linux: install your distribution's Tkinter package (for example, `python3-tk` on Debian/Ubuntu).
+  - macOS: use a Python installation that includes Tcl/Tk support.
 
 ## Run from source
 
@@ -22,15 +25,54 @@ A lightweight Python/Tkinter utility for checking the country associated with an
 python ippoint.py
 ```
 
-## Build on Windows with Nuitka
+On systems where the command is `python3`, use:
 
-Install Nuitka in the Python environment you use to run IPPoint:
-
-```bat
-python -m pip install nuitka
+```bash
+python3 ippoint.py
 ```
 
-Then run `build.bat`. It creates a standalone, single-file `IPPoint.exe` in the `dist` directory. The build script uses the Python interpreter associated with the `python` command.
+## Build with Nuitka
+
+Build on the operating system you want to target. Nuitka creates native builds for the system where it runs; a Windows build does not produce Linux or macOS binaries, and vice versa.
+
+Each build script creates and uses the project's local `.venv` directory and installs Nuitka there. You do not need to install Nuitka globally.
+
+### Windows
+
+Run:
+
+```bat
+build.bat
+```
+
+The result is `dist\\IPPoint.exe`.
+
+### Linux
+
+Install Python 3.10+, Tkinter, and a C compiler/toolchain first. On Debian or Ubuntu, for example:
+
+```bash
+sudo apt install python3-tk build-essential
+```
+
+Then run:
+
+```bash
+bash build.sh
+```
+
+The result is `dist/IPPoint`.
+
+### macOS
+
+Install Python 3.10+ with Tcl/Tk support and the Xcode Command Line Tools. Then run:
+
+```bash
+xcode-select --install
+bash build-macos.sh
+```
+
+The script asks Nuitka to create a macOS application bundle; check the `dist` directory for `IPPoint.app`.
 
 ## External services
 
