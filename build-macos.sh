@@ -22,9 +22,8 @@ echo "Installing or updating Nuitka in the project virtual environment..."
 
 echo "Building IPPoint for macOS..."
 "$VENV_PYTHON" -m nuitka \
-    --onefile \
+    --mode=app \
     --enable-plugin=tk-inter \
-    --macos-create-app-bundle \
     --output-dir=dist \
     --output-filename=IPPoint \
     ippoint.py
