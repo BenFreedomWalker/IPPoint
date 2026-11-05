@@ -8,6 +8,7 @@ import queue
 import threading
 import urllib.parse
 import urllib.request
+import webbrowser
 import tkinter as tk
 from tkinter import ttk
 
@@ -15,6 +16,9 @@ from tkinter import ttk
 GEO_API = "https://ipwho.is/"
 PUBLIC_IP_API = "https://api64.ipify.org?format=json"
 TIMEOUT = 12
+APP_VERSION = "1.0.0"
+ISSUES_URL = "https://github.com/awkbashgrepsed/IPPoint/issues"
+LICENSE_URL = "https://github.com/awkbashgrepsed/IPPoint/blob/main/LICENSE"
 
 
 def http_json(url: str) -> dict:
@@ -54,6 +58,12 @@ class IPPoint:
         self.root.geometry("460x350")
         self.root.minsize(420, 330)
 
+        menu = tk.Menu(self.root)
+        help_menu = tk.Menu(menu, tearoff=False)
+        help_menu.add_command(label="About IPPoint", command=self.show_about)
+        menu.add_cascade(label="Help", menu=help_menu)
+        self.root.configure(menu=menu)
+
         self.results: queue.Queue = queue.Queue()
         self.busy = False
 
@@ -65,6 +75,63 @@ class IPPoint:
 
         self._build_ui()
         self.root.after(100, self._process_results)
+
+    def show_about(self) -> None:
+        window = tk.Toplevel(self.root)
+        window.title("About IPPoint")
+        window.resizable(False, False)
+        window.transient(self.root)
+        window.grab_set()
+
+        frame = ttk.Frame(window, padding=20)
+        frame.pack(fill="both", expand=True)
+
+        ttk.Label(frame, text="IPPoint", font=("Segoe UI", 18, "bold")).pack(anchor="w")
+        ttk.Label(frame, text=f"Version {APP_VERSION}").pack(anchor="w", pady=(0, 12))
+        ttk.Label(
+            frame,
+            text="A lightweight desktop utility for checking the country associated "
+                 "with an IPv4 or IPv6 address.",
+            wraplength=390,
+            justify="left",
+        ).pack(anchor="w", pady=(0, 12))
+
+        ttk.Label(frame, text="External services", font=("Segoe UI", 10, "bold")).pack(anchor="w")
+        ttk.Label(
+            frame,
+            text="• ipify — detects your public IP when you use “Check my public IP”.\n"
+                 "• ipwho.is — looks up the country and country code for the IP address.\n\n"
+                 "The address is sent to these services as needed; requests use HTTPS.",
+            wraplength=390,
+            justify="left",
+        ).pack(anchor="w", pady=(3, 12))
+
+        ttk.Label(frame, text="License", font=("Segoe UI", 10, "bold")).pack(anchor="w")
+        ttk.Label(
+            frame,
+            text="GNU General Public License, version 3 (GPL-3.0). "
+                 "This software is provided without warranty. See the LICENSE file "
+                 "for the complete terms.",
+            wraplength=390,
+            justify="left",
+        ).pack(anchor="w", pady=(3, 14))
+
+        links = ttk.Frame(frame)
+        links.pack(fill="x")
+        ttk.Button(
+            links, text="GitHub Issues",
+            command=lambda: webbrowser.open(ISSUES_URL),
+        ).pack(side="left")
+        ttk.Button(
+            links, text="View license",
+            command=lambda: webbrowser.open(LICENSE_URL),
+        ).pack(side="left", padx=(8, 0))
+        ttk.Button(links, text="Close", command=window.destroy).pack(side="right")
+
+        window.update_idletasks()
+        x = self.root.winfo_rootx() + (self.root.winfo_width() - window.winfo_width()) // 2
+        y = self.root.winfo_rooty() + (self.root.winfo_height() - window.winfo_height()) // 2
+        window.geometry(f"+{x}+{y}")
 
     def _build_ui(self) -> None:
         outer = ttk.Frame(self.root, padding=22)
