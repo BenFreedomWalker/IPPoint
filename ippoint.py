@@ -17,7 +17,7 @@ GEO_API = "https://ipwho.is/"
 PUBLIC_IP_API = "https://api64.ipify.org?format=json"
 TIMEOUT = 12
 APP_VERSION = "1.0.0"
-ISSUES_URL = "https://github.com/awkbashgrepsed/IPPoint/issues"
+ISSUES_URL = "https://github.com/BenFreedomWalker/IPPoint/issues"
 LICENSE_URL = "https://github.com/awkbashgrepsed/IPPoint/blob/main/LICENSE"
 
 
