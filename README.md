@@ -91,4 +91,4 @@ IPPoint is distributed under the **GNU General Public License, version 3 (GPL-3.
 
 ## Project support
 
-Report bugs or request features on the [GitHub Issues page](https://github.com/awkbashgrepsed/IPPoint/issues).
+Report bugs or request features on the [GitHub Issues page](https://github.com/BenFreedomWalker/IPPoint/issues).
